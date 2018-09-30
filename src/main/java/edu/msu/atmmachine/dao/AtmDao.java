@@ -49,7 +49,9 @@ public class AtmDao {
 	private static final String GET_BALANCE = "SELECT balance FROM user WHERE username = ?";
 	
 	public Double getBalance(String username) throws SQLException {
-		return executeQuery(GET_BALANCE, new Object[] { username } ,false).getDouble(0);
+		ResultSet rs = executeQuery(GET_BALANCE, new Object[] { username } ,false);
+		rs.next();
+		return rs.getDouble(1);
 	}
 	
 	private ResultSet executeQuery(String query, Object[] params, boolean isUpdate) throws SQLException {
