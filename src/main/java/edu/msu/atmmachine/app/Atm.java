@@ -34,6 +34,7 @@ public class Atm {
 		
 		while(isContinue) {
 			String option = displayOptions(cin);
+			System.out.println();
 			switch(option.toLowerCase()) {
 				case "q":
 					isContinue = false;
