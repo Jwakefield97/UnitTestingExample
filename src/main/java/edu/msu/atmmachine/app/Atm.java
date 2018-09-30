@@ -47,11 +47,13 @@ public class Atm {
 					break;
 				case "with":
 					Double withAmt = getAmount(cin);
-					dao.updateBalance(user.getUsername(), user.getBalance() - withAmt);
+					user.setBalance(user.getBalance() - withAmt);
+					dao.updateBalance(user.getUsername(), user.getBalance());
 					break;
 				case "dep":
 					Double depAmt = getAmount(cin);
-					dao.updateBalance(user.getUsername(), user.getBalance() + depAmt);
+					user.setBalance(user.getBalance() + depAmt);
+					dao.updateBalance(user.getUsername(), user.getBalance());
 					break;
 			}
 		}
