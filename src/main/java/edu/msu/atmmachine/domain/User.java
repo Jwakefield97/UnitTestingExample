@@ -4,13 +4,13 @@ public class User {
 	private String username;
 	private String firstName;
 	private String lastName; 
-	private double balance; 
+	private Double balance; 
 	
-	User() {
+	public User() {
 		
 	}
 	
-	User(String username, String firstName, String lastName, double balance) {
+	public User(String username, String firstName, String lastName, Double balance) {
 		super();
 		this.username = username;
 		this.firstName = firstName;
@@ -46,7 +46,7 @@ public class User {
 		return balance;
 	}
 
-	public void setBalance(double balance) {
+	public void setBalance(Double balance) {
 		this.balance = balance;
 	}
 }

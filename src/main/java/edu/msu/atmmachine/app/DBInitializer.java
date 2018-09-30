@@ -52,7 +52,7 @@ public class DBInitializer {
         try (Connection connection = getConnection(); Statement statement = connection.createStatement();) {
         	statement.executeQuery(CREATE_USER_TABLE);
         	connection.commit();
-        	for(String userInsert: INITIAL_USER_INSERTS) {
+        	for(String userInsert: INITIAL_USER_INSERTS) { //loop through each insert statement and execute it
         		statement.executeUpdate(userInsert);
         		connection.commit();
         	}
