@@ -32,16 +32,12 @@ public class AtmDao {
 		return mapUser(executeQuery(GET_USER,new Object[]{username},false));
 	}
 	
-	private static final String IS_USER_EXISTS = "SELECT username FROM user WHERE username = ?";
+	private static final String IS_USER_EXISTS = "SELECT COUNT(1) FROM user WHERE username = ?";
 	
 	public boolean isUserExists(String username) throws SQLException {
-		ResultSet rs = executeQuery(IS_USER_EXISTS,new Object[]{username},false);
-		int rowCount = 0;
-		while (rs.next()){
-		    // Process the row.
-		    rowCount++;
-		}
-		return rowCount < 1;
+		ResultSet rs = executeQuery(IS_USER_EXISTS,new Object[]{ username },false);
+		rs.next(); //get the first/only result from the resultset generator
+		return (rs.getInt(1) != 0);
 	}
 	
 	private static final String UPDATE_BALANCE = "UPDATE user SET balance = ? WHERE username = ?";
@@ -56,7 +52,7 @@ public class AtmDao {
 		return executeQuery(GET_BALANCE, new Object[] { username } ,false).getDouble(0);
 	}
 	
-	public ResultSet executeQuery(String query, Object[] params, boolean isUpdate) throws SQLException {
+	private ResultSet executeQuery(String query, Object[] params, boolean isUpdate) throws SQLException {
 		ResultSet result = null; //returns null for update queries
 		PreparedStatement statement = connection.prepareStatement(query);
 		
@@ -64,13 +60,13 @@ public class AtmDao {
 		for(int i = 0; i < params.length; i++) {
 			Object param = params[i];
 			if(param instanceof String) {
-				statement.setString(i, param.toString());
+				statement.setString(i+1, param.toString());
 			}else if (param instanceof Double){
-				statement.setDouble(i, (Double) param);
+				statement.setDouble(i+1, (Double) param);
 			}
 		}
 		
-		if(isUpdate) {
+		if(isUpdate) { //if it is an update query, else its a query with a result 
 			statement.executeUpdate(); //execute query
 		}else {
 			result = statement.executeQuery();
@@ -81,8 +77,9 @@ public class AtmDao {
 	}
 	
 	public User mapUser(ResultSet rs) throws SQLException {
+		rs.next(); //get the first result from the generator
 		//map the user based on the resultset. assuming data is returned in order (username,firstName,lastName,balance)
-		return new User(rs.getString(0),rs.getString(1),rs.getString(2),rs.getDouble(3));
+		return new User(rs.getString(1),rs.getString(2),rs.getString(3),rs.getDouble(4));
 	}
 	
 	public Connection getConnection() {
