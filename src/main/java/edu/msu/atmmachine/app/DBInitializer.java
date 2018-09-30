@@ -38,6 +38,9 @@ public class DBInitializer {
 		}
 	}
 	
+	/**
+	 * @return a JDBC connection
+	 */
 	public Connection getConnection() {
 		Connection conn = null;
 		try {
@@ -48,6 +51,10 @@ public class DBInitializer {
 		return conn;
 	}
 	
+	/**
+	 * A method for creating and populating the user table
+	 * @throws SQLException if a sql exception occurs during the creation and population of the user table
+	 */
 	private void initDatabase() throws SQLException {
         try (Connection connection = getConnection(); Statement statement = connection.createStatement();) {
         	statement.executeQuery(CREATE_USER_TABLE);
@@ -60,6 +67,9 @@ public class DBInitializer {
 
     }
     
+    /**
+     * method called at the end of the use HSQLDB to delete the user table 
+     */
     public void destroy() {
     	try (Connection connection = getConnection(); Statement statement = connection.createStatement();) {
     		statement.executeUpdate(DROP_USER_TABLE);

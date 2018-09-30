@@ -13,13 +13,12 @@ public class Atm {
 	static DBInitializer initDB = new DBInitializer();
 	//create data access object with the connection from initDB
 	static AtmDao dao = new AtmDao(initDB.getConnection());
-	static final String QUIT = "quit";
 	
 	public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {
 		
 		Scanner cin = new Scanner(System.in);
 		User user = null;
-		boolean isContinue = true;
+		boolean isContinue = true; //whether or not the user has selected to exit the options screen.
 		
 		//have the user sign in or register before continuing
 		while(user == null) {
@@ -32,6 +31,7 @@ public class Atm {
 			}
 		}
 		
+		//loop for presenting options to the user after they login.
 		while(isContinue) {
 			String option = displayOptions(cin);
 			System.out.println();
@@ -58,10 +58,15 @@ public class Atm {
 			}
 		}
 		
-		cin.close();
+		cin.close(); //close Scanner object
 		initDB.destroy(); //destroy user table
 	}
 	
+	/**
+	 * A method for creating a login screen for the user.
+	 * @param sc Scanner object used to get user input pertaining to signing in.
+	 * @return a User object of the authenticated user.
+	 */
 	public static User signIn(Scanner sc) {
 		User resultUser = null;
 		while(resultUser == null) {
@@ -78,6 +83,11 @@ public class Atm {
 		return resultUser;
 	}
 	
+	/**
+	 * A method for creating a account creation screen.
+	 * @param sc Scanner object used to get user input pertaining to creating an account.
+	 * @return a User object if the user created the account successfully, null if they didn't or exited.
+	 */
 	public static User createAccount(Scanner sc) {
 		User resultUser = null;
 		String username = null, firstName, lastName;
@@ -117,12 +127,22 @@ public class Atm {
 		return resultUser;
 	}
 	
+	/**
+	 * A method for asking a user if they want to quit.
+	 * @param sc Scanner object used to get user input pertaining to exiting a portion of the app.
+	 * @return a boolean specifying if the user wants to exit of not.
+	 */
 	public static boolean isShouldExit(Scanner sc) {
 		System.out.print("Would you like to exit? (exit/e): ");
 		String exitStr = sc.nextLine();
 		return exitStr.equalsIgnoreCase("exit") || exitStr.equalsIgnoreCase("e");
 	}
 	
+	/**
+	 * A method for displaying and collecting user input for selecting options.
+	 * @param sc Scanner object used to get user input pertaining to entering in options.
+	 * @return a String of the option the user selected ("bal", "with", "dep", "quit/q").
+	 */
 	public static String displayOptions(Scanner sc) {
 		System.out.println("\n--------------------------------------------------");
 		System.out.println("- Enter 'bal' to see you balance.                -");
@@ -134,6 +154,11 @@ public class Atm {
 		return sc.nextLine();
 	}
 	
+	/**
+	 * A method for getting withdraw/deposit amounts.
+	 * @param sc Scanner object used to get user input pertaining withdraw/deposit amounts.
+	 * @return a Double representation of the amount entered for withdraw/deposit
+	 */
 	public static Double getAmount(Scanner sc) {
 		System.out.print("Enter an amount: ");
 		return sc.nextDouble();
