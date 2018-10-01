@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 
 import org.junit.BeforeClass;
@@ -24,12 +23,21 @@ public class AtmDaoTest {
 		atmDao = new AtmDao(TestSuite.DBConnection);
 	}
 	
-	/*@Test
+	@Test
+	public void testConnection() {
+		assertNotNull(TestSuite.DBConnection);
+	}
+	
+	@Test
 	public void testConstructor() {
 		AtmDao testAtmDao;
-		Connection connection = new Connection();
-		testAtmDao = new AtmDao(connection);
-	}*/
+		testAtmDao = new AtmDao(TestSuite.DBConnection);
+		try {
+			assertEquals("Billy", testAtmDao.getUser("bill2").getFirstName());
+		} catch(SQLException e) {
+			fail();
+		}
+	}
 	
 	@Test
 	public void testCreateUser() {
@@ -100,7 +108,7 @@ public class AtmDaoTest {
 		}
 	}
 	
-	@Test
+	/*@Test
 	public void testGetConnection() {
 		assertEquals(TestSuite.DBConnection, atmDao.getConnection());
 	}
@@ -109,12 +117,12 @@ public class AtmDaoTest {
 	public void testSetConnection() {
 		Connection held = atmDao.getConnection();
 		//set connection to something else, assert that it is that, set it back to held, assert it is that 
-		/*atmDao.setConnection(connection);
+		atmDao.setConnection(connection);
 		try {
 			
 		} catch(SQLException e) {
 			fail();
-		}*/
-	}
+		}
+	}*/
 
 }

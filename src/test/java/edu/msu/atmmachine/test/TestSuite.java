@@ -13,7 +13,7 @@ import org.junit.runners.Suite.SuiteClasses;
 import edu.msu.atmmachine.app.DBInitializer;
 
 @RunWith(Suite.class)
-@SuiteClasses({AtmDaoTest.class,UserTest.class})
+@SuiteClasses({AtmDaoTest.class, UserTest.class, AtmTest.class})
 public class TestSuite {
 	
 	private static DBInitializer initDB; 
