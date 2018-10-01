@@ -118,7 +118,7 @@ public class AtmDao {
 	 * @return a populated User object
 	 * @throws SQLException if an unforeseen error occurs with the database.
 	 */
-	public User mapUser(ResultSet rs) throws SQLException {
+	private User mapUser(ResultSet rs) throws SQLException {
 		rs.next(); //get the first result from the generator
 		//map the user based on the resultset. assuming data is returned in order (username,firstName,lastName,balance)
 		return new User(rs.getString(1),rs.getString(2),rs.getString(3),rs.getDouble(4));
@@ -128,16 +128,16 @@ public class AtmDao {
 	/**
 	 * @return the connection object that this Dao is using.
 	 */
-	public Connection getConnection() {
+	/*public Connection getConnection() {
 		return connection;
-	}
+	}*/
 
 	
 	/**
 	 * @param connection to be set for this Dao.
 	 */
-	public void setConnection(Connection connection) {
+	/*public void setConnection(Connection connection) {
 		this.connection = connection;
-	}
+	}*/
 	
 }
