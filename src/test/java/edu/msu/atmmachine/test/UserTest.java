@@ -2,7 +2,8 @@ package edu.msu.atmmachine.test;
 
 import static org.junit.Assert.*;
 
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import edu.msu.atmmachine.domain.User;
@@ -14,13 +15,18 @@ public class UserTest {
 	private static Double balance;
 	private static User testUser;
 	
-	@BeforeClass
-	public static void init() {
+	@Before
+	public void initUser() {
 		username = "bob72";
 		firstName = "Bob";
 		lastName = "Bobington";
 		balance = 72.0;
 		testUser = new User(username, firstName, lastName, balance);
+	}
+	
+	@After
+	public void cleanUpUser() {
+		testUser = null; //reset the testUser (for demo purpose)
 	}
 	
 	@Test
@@ -35,6 +41,9 @@ public class UserTest {
 		String firstName = "Jimmah";
 		String lastName = "John";
 		Double balance = 876.0;
+		
+		testUser.setUsername("al;skdfjl;askdjfl;k"); //change the username of the shared test user 
+		
 		User testUser = new User(username, firstName, lastName, balance);
 		assertEquals(firstName, testUser.getFirstName());
 		assertEquals(lastName, testUser.getLastName());

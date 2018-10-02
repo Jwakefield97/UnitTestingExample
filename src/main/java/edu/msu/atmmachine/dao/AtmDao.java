@@ -125,19 +125,19 @@ public class AtmDao {
 	}
 	
 	
-	/**
+	/*
 	 * @return the connection object that this Dao is using.
 	 */
-	/*public Connection getConnection() {
+	public Connection getConnection() {
 		return connection;
-	}*/
+	}
 
 	
-	/**
+	/*
 	 * @param connection to be set for this Dao.
 	 */
-	/*public void setConnection(Connection connection) {
+	public void setConnection(Connection connection) {
 		this.connection = connection;
-	}*/
+	}
 	
 }

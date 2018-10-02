@@ -1,13 +1,17 @@
 package edu.msu.atmmachine.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import edu.msu.atmmachine.dao.AtmDao;
@@ -71,6 +75,7 @@ public class AtmDaoTest {
 		}
 	}
 	
+	@Ignore
 	@Test
 	public void testIsUserExists() {
 		String usernameExists = "bill2";
@@ -83,7 +88,7 @@ public class AtmDaoTest {
 		}
 	}
 	
-	@Test
+	@Test(timeout=100)
 	public void testUpdateBalance() {
 		String username = "bill2";
 		try {
@@ -96,19 +101,30 @@ public class AtmDaoTest {
 		}
 	}
 	
+	@Test(expected=SQLException.class)
+	public void testUpdateBalanceError() throws SQLException {
+		String username = "";
+		User testUser = atmDao.getUser(username);
+		double balance = testUser.getBalance();
+		atmDao.updateBalance(username, balance + 20);
+		assertEquals(balance + 20, atmDao.getUser(username).getBalance(), 0);
+	}
+	
+	
 	@Test
 	public void testGetBalance() {
 		String username = "bill2";
 		double expectedBalance = 100;
 		try {
-			User testUser = atmDao.getUser(username);
-			assertEquals(expectedBalance, testUser.getBalance(), 0);
+			Double bal = atmDao.getBalance(username);
+			assertEquals(expectedBalance, bal, 0);
 		} catch(SQLException e) {
 			fail();
 		}
 	}
 	
-	/*@Test
+	@Ignore
+	@Test
 	public void testGetConnection() {
 		assertEquals(TestSuite.DBConnection, atmDao.getConnection());
 	}
@@ -117,12 +133,12 @@ public class AtmDaoTest {
 	public void testSetConnection() {
 		Connection held = atmDao.getConnection();
 		//set connection to something else, assert that it is that, set it back to held, assert it is that 
-		atmDao.setConnection(connection);
 		try {
-			
-		} catch(SQLException e) {
-			fail();
+			atmDao.setConnection(DriverManager.getConnection("jdbc:hsqldb:mem:user", "vinod", "vinod"));
+		} catch (SQLException e1) {
+			e1.printStackTrace();
 		}
-	}*/
+		assertNotEquals(atmDao.getConnection(),held);
+	}
 
 }
