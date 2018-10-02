@@ -45,15 +45,11 @@ public class AtmDaoTest {
 	
 	@Test
 	public void testCreateUser() {
-		String username = "bob72";
-		String firstName = "bob";
-		String lastName = "jones";
+		User user = new User("bob72","bob","jones",0.0);
 		try {
-			User testUser;
-			atmDao.createUser(username, firstName, lastName);
-			testUser = atmDao.getUser("bob72");
-			assertEquals(firstName, testUser.getFirstName());
-			assertEquals(lastName, testUser.getLastName());
+			atmDao.createUser(user.getUsername(), user.getFirstName(), user.getLastName());
+			User testUser = atmDao.getUser(user.getUsername());
+			assertEquals(testUser, user);
 		} catch(SQLException e) {
 			fail();
 		}
@@ -61,27 +57,31 @@ public class AtmDaoTest {
 	
 	@Test
 	public void testGetUser() {
-		String username = "bill2";
-		String firstName = "Billy";
-		String lastName = "Janson";
+		User user = new User("bill2","Billy","Janson",100.0);
 		try {
-			User testUser;
-			testUser = atmDao.getUser(username);
-			assertNotNull(testUser);
-			assertEquals(firstName, testUser.getFirstName());
-			assertEquals(lastName, testUser.getLastName());
+			User testUser = atmDao.getUser(user.getUsername());
+			assertEquals(testUser, user);
 		} catch(SQLException e) {
 			fail();
 		}
 	}
 	
-	@Ignore
+	
 	@Test
-	public void testIsUserExists() {
+	public void testIsUserExistsTrue() {
 		String usernameExists = "bill2";
-		String usernameNotExists = "someguy";
 		try {
 			assertTrue(atmDao.isUserExists(usernameExists));
+		} catch(SQLException e) {
+			fail();
+		}
+	}
+	
+	
+	@Test
+	public void testIsUserExistsFalse() {
+		String usernameNotExists = "someguy";
+		try {
 			assertFalse(atmDao.isUserExists(usernameNotExists));
 		} catch(SQLException e) {
 			fail();
@@ -110,7 +110,6 @@ public class AtmDaoTest {
 		assertEquals(balance + 20, atmDao.getUser(username).getBalance(), 0);
 	}
 	
-	
 	@Test
 	public void testGetBalance() {
 		String username = "bill2";
@@ -123,7 +122,6 @@ public class AtmDaoTest {
 		}
 	}
 	
-	@Ignore
 	@Test
 	public void testGetConnection() {
 		assertEquals(TestSuite.DBConnection, atmDao.getConnection());

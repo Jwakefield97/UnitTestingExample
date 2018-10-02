@@ -146,7 +146,7 @@ public class Atm {
 	public static String displayOptions(Scanner sc) {
 		System.out.println("\n--------------------------------------------------");
 		System.out.println("- Enter 'bal' to see you balance.                  -");
-		System.out.println("- Enter 'with' to make a withdrawl.                -");
+		System.out.println("- Enter 'with' to make a withdrawal.               -");
 		System.out.println("- Enter 'dep' to make a deposit.                   -");
 		System.out.println("- Enter 'quit' or 'q' to quit.                     -");
 		System.out.println("--------------------------------------------------\n");
